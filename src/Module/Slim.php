@@ -10,6 +10,7 @@ use Codeception\Exception\ModuleConfigException;
 use Codeception\Lib\Framework;
 use Codeception\TestInterface;
 use DoclerLabs\CodeceptionSlimModule\Lib\Connector\SlimPsr7;
+use Psr\Container\ContainerInterface;
 use Slim\App;
 
 /**
@@ -49,18 +50,18 @@ use Slim\App;
  */
 class Slim extends Framework
 {
-    /** @var App */
-    public $app;
+    /** @var App<ContainerInterface|null> */
+    public App $app;
 
-    /** @var array */
     protected array $requiredFields = ['application'];
 
-    /** @var string */
-    private $applicationPath;
+    private string $applicationPath;
 
     public function _initialize(): void
     {
-        $applicationPath = Configuration::projectDir() . $this->config['application'];
+        /** @var string $configApplication */
+        $configApplication = $this->config['application'];
+        $applicationPath = Configuration::projectDir() . $configApplication;
         if (!is_readable($applicationPath)) {
             throw new ModuleConfigException(
                 static::class,
@@ -75,11 +76,10 @@ class Slim extends Framework
 
     public function _before(TestInterface $test): void
     {
-        /* @noinspection PhpIncludeInspection */
-        $this->app = require $this->applicationPath;
+        $app = require $this->applicationPath;
 
         // Check if app instance is ready.
-        if (!$this->app instanceof App) {
+        if (!$app instanceof App) {
             throw new ConfigurationException(
                 sprintf(
                     "Unable to bootstrap slim application.\n  Application file must return with `%s` instance.",
@@ -87,6 +87,8 @@ class Slim extends Framework
                 )
             );
         }
+
+        $this->app = $app;
 
         $connector = new SlimPsr7();
         $connector->setApp($this->app);

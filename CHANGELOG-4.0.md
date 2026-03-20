@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - PHP 8.4 support
 - PHP 8.5 support
 
+### Changed
+- Upgraded PHPStan to v2
+- Updated static analysis workflow to use PHP 8.5
+
 ## [4.2.0] - 2024-03-15
 ### Added
 - PHP 8.3 support
