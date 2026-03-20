@@ -61,7 +61,7 @@ class Slim extends Framework
     {
         /** @var string $configApplication */
         $configApplication = $this->config['application'];
-        $applicationPath = Configuration::projectDir() . $configApplication;
+        $applicationPath   = Configuration::projectDir() . $configApplication;
         if (!is_readable($applicationPath)) {
             throw new ModuleConfigException(
                 static::class,

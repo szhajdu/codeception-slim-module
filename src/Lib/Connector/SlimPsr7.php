@@ -121,12 +121,12 @@ class SlimPsr7 extends AbstractBrowser
                 is_array($file)
                 && isset($file['tmp_name'], $file['name'])
             ) {
-                /** @var array{tmp_name: string, name: string, type: string|null, size: int|null, error: int|null} $file */
+                /** @var array{tmp_name: string, name: string, type?: string|null, size?: int|null, error?: int} $file */
                 $uploadedFiles[(string)$fieldName] = new UploadedFile(
                     $file['tmp_name'],
                     $file['name'],
-                    $file['type'] ?? null,
-                    $file['size'] ?? null,
+                    $file['type']  ?? null,
+                    $file['size']  ?? null,
                     $file['error'] ?? UPLOAD_ERR_OK
                 );
             }
