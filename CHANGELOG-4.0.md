@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - PHP 8.4 support
 - PHP 8.5 support
+- Configurable default headers support via `headers` module configuration
+- Improved test coverage with unit and functional tests
 
 ### Changed
 - Upgraded PHPStan to v2

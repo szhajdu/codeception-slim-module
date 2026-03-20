@@ -21,6 +21,7 @@ use Slim\App;
  * ### Slim 4.x
  *
  * * application - Relative path to file which bootstrap and returns your `Slim\App` instance.
+ * * headers - Default headers to be sent with every request (optional).
  *
  * #### Example (`test/suite/functional.suite.yml`)
  * ```yaml
@@ -28,6 +29,8 @@ use Slim\App;
  *   config:
  *     DoclerLabs\CodeceptionSlimModule\Module\Slim:
  *       application: 'app/bootstrap.php'
+ *       headers:
+ *         Content-Type: application/json
  * ```
  *
  * ## Public Properties
@@ -46,6 +49,8 @@ use Slim\App;
  *   config:
  *     DoclerLabs\CodeceptionSlimModule\Module\Slim:
  *       application: 'app/bootstrap.php'
+ *       headers:
+ *         Content-Type: application/json
  * ```
  */
 class Slim extends Framework
@@ -54,6 +59,8 @@ class Slim extends Framework
     public App $app;
 
     protected array $requiredFields = ['application'];
+
+    protected array $config = ['headers' => []];
 
     private string $applicationPath;
 
@@ -94,6 +101,10 @@ class Slim extends Framework
         $connector->setApp($this->app);
 
         $this->client = $connector;
+
+        /** @var array<string, string> $headers */
+        $headers       = $this->config['headers'];
+        $this->headers = $headers;
 
         parent::_before($test);
     }
